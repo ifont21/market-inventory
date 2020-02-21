@@ -1,0 +1,25 @@
+.market-inventory {
+  &__wrapper {
+    background-color: white;
+    min-height: 100vh;
+    color: black;
+  }
+
+  &__header,
+  &__content {
+    padding: 0 5%;
+  }
+
+  &__content {
+    margin-top: 3rem;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5rem;
+    background-color: #0B6298;
+    color: white;
+  }
+}

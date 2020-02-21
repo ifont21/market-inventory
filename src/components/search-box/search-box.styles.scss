@@ -1,0 +1,26 @@
+.search-box {
+  &__wrapper{
+    display: flex;
+    width: 20%;
+    align-items: center;
+  }
+  &__icon{
+    flex-basis: 10%;
+  }
+  &__input {
+    width: 100%;
+    flex-basis: 80%;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid;
+    background: transparent;
+    padding: 5px 0;
+    box-sizing: border-box;
+    font-size: 1rem;
+
+    &:focus{
+        outline: none;
+    }
+  }
+}
