@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/market-inventory/static/css/main.b377dbc5.chunk.css",
+    "main.js": "/market-inventory/static/js/main.931698d1.chunk.js",
+    "main.js.map": "/market-inventory/static/js/main.931698d1.chunk.js.map",
+    "runtime-main.js": "/market-inventory/static/js/runtime-main.7125c3af.js",
+    "runtime-main.js.map": "/market-inventory/static/js/runtime-main.7125c3af.js.map",
+    "static/js/2.0d24ed58.chunk.js": "/market-inventory/static/js/2.0d24ed58.chunk.js",
+    "static/js/2.0d24ed58.chunk.js.map": "/market-inventory/static/js/2.0d24ed58.chunk.js.map",
+    "index.html": "/market-inventory/index.html",
+    "precache-manifest.51c10276e983f39b85802b9920ead71f.js": "/market-inventory/precache-manifest.51c10276e983f39b85802b9920ead71f.js",
+    "service-worker.js": "/market-inventory/service-worker.js",
+    "static/css/main.b377dbc5.chunk.css.map": "/market-inventory/static/css/main.b377dbc5.chunk.css.map",
+    "static/js/2.0d24ed58.chunk.js.LICENSE.txt": "/market-inventory/static/js/2.0d24ed58.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7125c3af.js",
+    "static/js/2.0d24ed58.chunk.js",
+    "static/css/main.b377dbc5.chunk.css",
+    "static/js/main.931698d1.chunk.js"
+  ]
+}
