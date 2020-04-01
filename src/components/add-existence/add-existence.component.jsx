@@ -4,7 +4,6 @@ import "./add-existence.styles.scss";
 import { UiInput } from "../../components/ui-input/ui-input.component";
 import { UiButton } from "../../components/ui-button/ui-button.component";
 import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
 import {
   toggleAdd,
   addExistence
