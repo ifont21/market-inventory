@@ -1,0 +1,15 @@
+.dashboard {
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__aside {
+    padding: 20px;
+  }
+
+  &__main-section {
+    flex: 1 0 70%;
+    padding: 20px 20px 20px 100px;
+  }
+}

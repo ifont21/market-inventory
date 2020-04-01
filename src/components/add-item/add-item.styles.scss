@@ -1,0 +1,19 @@
+.add-item {
+  &__wrapper {
+    border: 3px solid #1d2d35;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    opacity: 0.5;
+    height: 17vh;
+    box-sizing: border-box;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  &__icon {
+    font-size: 3.125rem;
+    color: #109abf;
+  }
+}

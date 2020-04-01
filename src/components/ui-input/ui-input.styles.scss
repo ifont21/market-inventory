@@ -1,0 +1,42 @@
+@mixin shrinkFocus {
+  top: -10px;
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.ui-input {
+  &__wrapper {
+    display: flex;
+    position: relative;
+  }
+
+  &--shrink {
+    position: absolute;
+    pointer-events: none;
+    transition: 300ms ease all;
+    @include shrinkFocus();
+  }
+
+  &__input {
+    border: none;
+    border-bottom: 1px solid;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus ~ .ui-input__label {
+      @include shrinkFocus();
+    }
+  }
+
+  &__label {
+    position: absolute;
+    top: 10px;
+    transition: 300ms ease all;
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,27 @@
+.homepage {
+  &__wrapper {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    color: #F1F6F8;
+  }
+
+  &__main-text {
+    font-family: "Passion One", cursive;
+    font-size: 5rem;
+  }
+
+  &__steps {
+    font-size: 2rem;
+    list-style: none;
+
+    span {
+      font-family: "Passion One", cursive;
+      margin-right: 10px;
+      font-weight: 900;
+      font-size: 2.5rem;
+      color: #1d2d35;
+      // color: #bf3510;
+    }
+  }
+}

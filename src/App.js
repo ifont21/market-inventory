@@ -1,63 +1,85 @@
-import React, { Component } from "react";
+import React from "react";
 import "./App.scss";
 
-import { ProductList } from "./components/product-list/product-list.component";
-import { SearchBox } from "./components/search-box/search-box.component";
+import { HomePage } from "./pages/homepage/homepage.component";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faPlus } from "@fortawesome/free-solid-svg-icons";
 
-library.add(fab, faSearch);
+import { Redirect } from "react-router-dom";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      products: [],
-      hideSearchBox: true,
-      searchTerm: ""
-    };
-  }
+import { Route, Switch } from "react-router-dom";
+import Header from "./components/header/header.component";
+import { SignInGate } from "./pages/signin-gate/signin-gate.component";
+import { ProductDashboard } from "./pages/product-dashboard/product-dashboard.component";
+import { auth, createUserProfileDocument } from "./firebase/firebase.util";
+import { setCurrentUser } from "./redux/user/user.actions";
+import { connect } from "react-redux";
+import { selectCurrentUser } from "./redux/user/user.selectors";
+import { createStructuredSelector } from "reselect";
+
+library.add(fab, faSearch, faPlus);
+
+class App extends React.Component {
+  unsubscribeFromAuth = null;
 
   componentDidMount() {
-    fetch("http://localhost:3001/products")
-      .then(response => response.json())
-      .then(products => this.setState({ products }));
+    const { setCurrentUser } = this.props;
+
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (!userAuth) {
+        setCurrentUser(userAuth);
+        return;
+      }
+
+      const userRef = await createUserProfileDocument(userAuth);
+
+      userRef.onSnapshot(snapshot => {
+        setCurrentUser({
+          id: snapshot.id,
+          ...snapshot.data()
+        });
+      });
+    });
   }
 
-  handleChange = e => {
-    this.setState({ searchTerm: e.target.value });
-  };
-
-  onShowFilter = () => {
-    this.setState({ hideSearchBox: !this.state.hideSearchBox });
-  };
+  componentWillUnmount() {
+    this.unsubscribeFromAuth();
+  }
 
   render() {
-    let { products, searchTerm, hideSearchBox } = this.state;
-
-    products = products.filter(product =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
     return (
       <div className="market-inventory__wrapper">
-        <header className="market-inventory__header">
-          <h1>Market Inventory</h1>
-        </header>
-
-        <section className="market-inventory__content">
-          <SearchBox
-            onSearchTerm={this.handleChange}
-            hideSearchBox={hideSearchBox}
-            onShowFilter={this.onShowFilter}
-          />
-          <ProductList products={products} />
-        </section>
+        <div className="market-inventory__header">
+          <Header />
+        </div>
+        <div className="market-inventory__content">
+          <Switch>
+            <Route exact path="/" component={HomePage}></Route>
+            <Route
+              exact
+              path="/signin"
+              render={() =>
+                this.props.currentUser ? <Redirect to="/" /> : <SignInGate />
+              }
+            ></Route>
+            <Route path="/dashboard" component={ProductDashboard}></Route>
+          </Switch>
+        </div>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
+});
+
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+});
+
+const dispatchConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default dispatchConnect(App);

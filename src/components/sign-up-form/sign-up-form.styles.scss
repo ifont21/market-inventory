@@ -1,0 +1,15 @@
+.signup-form {
+  &__wrapper {
+    display: flex;
+    flex-flow: column;
+  }
+
+  &__textbox {
+    margin-bottom: 30px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+  }
+}

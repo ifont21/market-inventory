@@ -1,4 +1,4 @@
-.product {
+.existence {
   &__item {
     border-radius: 4px;
     display: flex;
@@ -7,15 +7,17 @@
     padding: 5px 10px;
     height: 17vh;
     box-sizing: border-box;
+    overflow: hidden;
   }
 
   &__image {
     flex: 2;
+    height: 100%;
 
     img {
       width: 100%;
       max-width: 160px;
-      height: auto;
+      height: 100%;
     }
   }
 
@@ -24,7 +26,7 @@
     align-self: flex-start;
   }
 
-  &__name {
+  &__brand {
     font-weight: bold;
     font-size: 2rem;
   }
