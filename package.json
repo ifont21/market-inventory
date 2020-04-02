@@ -2,7 +2,7 @@
   "name": "market-inventory",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ifont12.github.io/market-inventory",
+  "homepage": "https://market-inventory-if.herokuapp.com/",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-brands-svg-icons": "^5.12.1",
