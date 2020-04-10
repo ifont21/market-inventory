@@ -1,0 +1,8 @@
+.summary {
+  &__wrapper {
+    display: flex;
+    & > div {
+      flex-basis: 25%;
+    }
+  }
+}

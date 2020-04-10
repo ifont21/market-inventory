@@ -1,16 +1,17 @@
 import React from "react";
 
 import "./header.styles.scss";
-import { Link } from "react-router-dom";
 import { UiButton } from "../ui-button/ui-button.component";
 import { auth } from "../../firebase/firebase.util";
-import { withRouter } from "react-router-dom";
 
-import { connect } from "react-redux";
-import { selectCurrentUser } from "../../redux/user/user.selectors";
-import { createStructuredSelector } from "reselect";
+import {
+  OptionLink,
+  OptionLinkContainer,
+  HeaderOptions,
+} from "./header.styles";
 
 const Header = ({ currentUser, history }) => {
+  console.log("currentUser", currentUser);
   return (
     <div
       className={`header__wrapper ${
@@ -20,23 +21,17 @@ const Header = ({ currentUser, history }) => {
       <div className="header__logo">
         <h2>mInventory</h2>
       </div>
-      <div className="header__options">
+      <HeaderOptions>
         {currentUser ? (
           <span className="header__user">Hello {currentUser.displayName}</span>
         ) : (
-          <div className="header__links">
-            <Link to="/" className="header__link-item">
-              Home
-            </Link>
-            <Link to="pricing" className="header__link-item">
-              Pricing
-            </Link>
-            <Link to="contactus" className="header__link-item">
-              Contact Us
-            </Link>
-          </div>
+          <OptionLinkContainer>
+            <OptionLink to="/">Home</OptionLink>
+            <OptionLink to="/">Pricing</OptionLink>
+            <OptionLink to="/">Contact Us</OptionLink>
+          </OptionLinkContainer>
         )}
-        <div className="header__actions">
+        <OptionLinkContainer>
           {currentUser ? (
             <UiButton
               handleClick={() => {
@@ -47,23 +42,14 @@ const Header = ({ currentUser, history }) => {
               Sign Out
             </UiButton>
           ) : (
-            <Link
-              to="signin"
-              className="header__link-item header--button-link primary"
-            >
+            <OptionLink isbutton="true" primary="true" to="/signin">
               Sign In
-            </Link>
+            </OptionLink>
           )}
-        </div>
-      </div>
+        </OptionLinkContainer>
+      </HeaderOptions>
     </div>
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
-});
-
-const storeConnect = connect(mapStateToProps);
-
-export default withRouter(storeConnect(Header));
+export default Header;

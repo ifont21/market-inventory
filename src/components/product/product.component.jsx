@@ -1,7 +1,7 @@
 import React from "react";
 import "./product.styles.scss";
 
-export const Product = ({ name, existence, registeredBrands, img }) => (
+export const Product = ({ name, category, brands, img }) => (
   <div className="product__item">
     <div className="product__image">
       <img src={img} alt={name} />
@@ -9,12 +9,12 @@ export const Product = ({ name, existence, registeredBrands, img }) => (
     <div className="product__content">
       <span className="product__name">{name}</span>
       <div className="product__existence">
-        <span>Existence: </span>
-        <span>{existence}</span>
+        <span>Category: </span>
+        <span>{category}</span>
       </div>
       <div className="product__brands">
         <span>Brands: </span>
-        <span>{registeredBrands.length}</span>
+        <span>{brands.length}</span>
       </div>
     </div>
   </div>

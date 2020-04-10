@@ -1,10 +1,11 @@
 import React from "react";
 import "./ui-button.styles.scss";
+import { ButtonStyled } from "./ui-button.styles";
 
-export const UiButton = ({ type, children, handleClick }) => {
+export const UiButton = ({ children, handleClick, ...props }) => {
   return (
-    <button className={`btn ${type}`} onClick={handleClick}>
+    <ButtonStyled onClick={handleClick} {...props}>
       {children}
-    </button>
+    </ButtonStyled>
   );
 };

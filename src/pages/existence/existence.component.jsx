@@ -5,46 +5,30 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { ExistenceItem } from "../../components/existence-item/existence-item.component";
 import { AddItem } from "../../components/add-item/add-item.component";
-import {
-  selectCurrentExistences,
-  selectToggleAdd
-} from "../../redux/existences/existences.selectors";
-import {
-  loadExistence,
-  toggleAdd
-} from "../../redux/existences/existences.actions";
-import { existences } from "../../redux/existences/existences.mock";
+import { selectToggleAdd } from "../../redux/existences/existences.selectors";
+import { toggleAdd } from "../../redux/existences/existences.actions";
 import AddExistence from "../../components/add-existence/add-existence.component";
+import { selectInventoryCategory } from "../../redux/inventory/inventory.selectors";
 
-class Existence extends React.Component {
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(loadExistence(existences));
-  }
+const Existence = ({ dispatch, currentExistences, openedPanel }) => {
+  const openAddExistence = () => dispatch(toggleAdd());
 
-  openAddExistence = () => {
-    const { dispatch } = this.props;
-    dispatch(toggleAdd());
-  };
+  return (
+    <div className="existence__wrapper">
+      {currentExistences.map((existence) => {
+        return <ExistenceItem key={existence.id} {...existence} />;
+      })}
+      <AddItem handleClick={openAddExistence} />
+      <AddExistence open={openedPanel} />
+    </div>
+  );
+};
 
-  render() {
-    const { toggleAdd } = this.props;
-
-    return (
-      <div className="existence__wrapper">
-        {this.props.currentExistences.map(existence => {
-          return <ExistenceItem key={existence.id} {...existence} />;
-        })}
-        <AddItem handleClick={this.openAddExistence} />
-        <AddExistence open={toggleAdd} />
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = createStructuredSelector({
-  currentExistences: selectCurrentExistences,
-  toggleAdd: selectToggleAdd
+const mapStateToProps = (state, { match }) => ({
+  currentExistences: selectInventoryCategory(
+    match && match.params && match.params.category
+  )(state),
+  openedPanel: selectToggleAdd(state),
 });
 
 export default connect(mapStateToProps)(Existence);
