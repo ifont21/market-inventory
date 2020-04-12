@@ -4,102 +4,96 @@ import "./add-existence.styles.scss";
 import { UiInput } from "../../components/ui-input/ui-input.component";
 import { UiButton } from "../../components/ui-button/ui-button.component";
 import { connect } from "react-redux";
-import {
-  toggleAdd,
-  addExistence
-} from "../../redux/existences/existences.actions";
+import { addExistence } from "../../redux/existences/existences.actions";
+import { useState } from "react";
+import { useContext } from "react";
+import { ExistenceContext } from "../../providers/existence/existence.provider";
 
-class AddExistence extends React.Component {
-  constructor() {
-    super();
+const AddExistence = ({ dispatch }) => {
+  const [newExistence, setExistence] = useState({
+    id: "",
+    brand: "",
+    amount: 0,
+  });
 
-    this.state = {
-      id: "",
-      brand: "",
-      amount: 0
-    };
-  }
+  const { setToogleHiddenDialog, hidden } = useContext(ExistenceContext);
 
-  handleChange = event => {
+  const { id, brand, amount } = newExistence;
+
+  const handleChange = (event) => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    setExistence({ ...newExistence, [name]: value });
   };
 
-  cancel = event => {
+  const cancel = (event) => {
     event.preventDefault();
-    const { dispatch } = this.props;
-    dispatch(toggleAdd());
+    setToogleHiddenDialog();
   };
 
-  addExistence = event => {
-    const { dispatch } = this.props;
+  const createNewExistence = (event) => {
     event.preventDefault();
 
     const existence = {
       ...this.state,
       img:
-        "https://www.buckhill.co.uk/assets/images/ximg_placeholder.png.pagespeed.ic.N8PbnIMBT7.png"
+        "https://www.buckhill.co.uk/assets/images/ximg_placeholder.png.pagespeed.ic.N8PbnIMBT7.png",
     };
 
     dispatch(addExistence(existence));
 
-    this.setState({
+    setExistence({
       id: "",
       brand: "",
-      amount: 0
+      amount: 0,
     });
   };
 
-  render() {
-    const { open } = this.props;
-
-    return (
-      <div
-        style={{ visibility: open ? "visible" : "hidden" }}
-        className="add-product__wrapper"
-      >
-        <form className="add-product__form">
-          <div className="add-product__body">
-            <h2>New Existence</h2>
-            <div className="add-product__input">
-              <UiInput
-                name="id"
-                label="Id"
-                type="text"
-                value={this.state.id}
-                handleChange={this.handleChange}
-              />
-            </div>
-            <div className="add-product__input">
-              <UiInput
-                name="brand"
-                label="Brand"
-                type="text"
-                value={this.state.brand}
-                handleChange={this.handleChange}
-              />
-            </div>
-            <div className="add-product__input">
-              <UiInput
-                name="amount"
-                label="Amount"
-                type="number"
-                value={this.state.amount}
-                handleChange={this.handleChange}
-              />
-            </div>
+  return (
+    <div
+      style={{ visibility: !hidden ? "visible" : "hidden" }}
+      className="add-product__wrapper"
+    >
+      <form className="add-product__form">
+        <div className="add-product__body">
+          <h2>New Existence</h2>
+          <div className="add-product__input">
+            <UiInput
+              name="id"
+              label="Id"
+              type="text"
+              value={id}
+              handleChange={handleChange}
+            />
           </div>
-
-          <div className="add-product__actions">
-            <UiButton handleClick={this.cancel}> Cancel </UiButton>
-            <UiButton handleClick={this.addExistence} type="primary">
-              Save
-            </UiButton>
+          <div className="add-product__input">
+            <UiInput
+              name="brand"
+              label="Brand"
+              type="text"
+              value={brand}
+              handleChange={handleChange}
+            />
           </div>
-        </form>
-      </div>
-    );
-  }
-}
+          <div className="add-product__input">
+            <UiInput
+              name="amount"
+              label="Amount"
+              type="number"
+              value={amount}
+              handleChange={handleChange}
+            />
+          </div>
+        </div>
+
+        <div className="add-product__actions">
+          <UiButton handleClick={cancel}> Cancel </UiButton>
+          <UiButton handleClick={createNewExistence} type="primary">
+            Save
+          </UiButton>
+        </div>
+      </form>
+    </div>
+  );
+};
 
 export default connect(null)(AddExistence);

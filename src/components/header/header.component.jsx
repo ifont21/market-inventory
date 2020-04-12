@@ -2,7 +2,6 @@ import React from "react";
 
 import "./header.styles.scss";
 import { UiButton } from "../ui-button/ui-button.component";
-import { auth } from "../../firebase/firebase.util";
 
 import {
   OptionLink,
@@ -10,8 +9,7 @@ import {
   HeaderOptions,
 } from "./header.styles";
 
-const Header = ({ currentUser, history }) => {
-  console.log("currentUser", currentUser);
+const Header = ({ currentUser, history, setCurrentUser }) => {
   return (
     <div
       className={`header__wrapper ${
@@ -35,7 +33,7 @@ const Header = ({ currentUser, history }) => {
           {currentUser ? (
             <UiButton
               handleClick={() => {
-                auth.signOut();
+                setCurrentUser(null);
                 history.push("/");
               }}
             >

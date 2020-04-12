@@ -1,52 +1,38 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
 import "./product-types.styles.scss";
 import { Product } from "../../components/product/product.component";
-import {
-  setProducts,
-  toggleCreate,
-} from "../../redux/products/products.actions";
 import { AddItem } from "../../components/add-item/add-item.component";
 import AddProduct from "../../components/add-product/add-product.component";
-import {
-  selectCurrentProducts,
-  selectToggleDialog,
-} from "../../redux/products/products.selectors";
-import { createStructuredSelector } from "reselect";
-import { products } from "../../redux/products/products.mock";
+import { useState } from "react";
+import ProductContext from "../../context/product.context";
 
-class ProductTypes extends React.Component {
-  componentDidMount() {
-    const { dispatch } = this.props;
+const ProductTypes = ({ fetchProducts, currentProducts }) => {
+  const [hidden, setHiddenDialog] = useState(true);
 
-    fetch("http://localhost:8081/api/products")
-      .then((response) => response.json())
-      .then((products) => dispatch(setProducts(products)))
-      .catch((error) => console.error(error));
-  }
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
-  toggleCreate = () => {
-    const { dispatch } = this.props;
-    dispatch(toggleCreate());
+  const onToggleHidden = () => {
+    setHiddenDialog(!hidden);
   };
 
-  render() {
-    const { toggleDialog } = this.props;
-    return (
-      <div className="products__wrapper">
-        {this.props.currentProducts.map((product) => {
-          return <Product key={product.id} {...product} />;
-        })}
-        <AddItem handleClick={this.toggleCreate} />
-        <AddProduct open={toggleDialog} />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="products__wrapper">
+      {currentProducts.map((product) => {
+        return <Product key={product.id} {...product} />;
+      })}
+      <AddItem handleClick={onToggleHidden} />
+      <ProductContext.Provider
+        value={{
+          hidden,
+          onToggleHidden,
+        }}
+      >
+        <AddProduct />
+      </ProductContext.Provider>
+    </div>
+  );
+};
 
-const mapStateToProps = createStructuredSelector({
-  currentProducts: selectCurrentProducts,
-  toggleDialog: selectToggleDialog,
-});
-
-export default connect(mapStateToProps)(ProductTypes);
+export default ProductTypes;

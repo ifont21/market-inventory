@@ -1,77 +1,78 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "./sign-in-form.styles.scss";
 import { UiButton } from "../ui-button/ui-button.component";
 import { UiInput } from "../ui-input/ui-input.component";
 import { withRouter } from "react-router-dom";
 import { singInWithGoogle, auth } from "../../firebase/firebase.util";
+import { setCurrentUser } from "../../redux/user/user.actions";
+import { connect } from "react-redux";
 
-class SignInForm extends Component {
-  constructor() {
-    super();
+const SignInForm = ({ setCurrentUser, history }) => {
+  const [userCredentials, setCredentials] = useState({
+    email: "",
+    password: "",
+  });
 
-    this.state = {
-      email: "",
-      password: ""
-    };
-  }
+  const { email, password } = userCredentials;
 
-  signIn = async event => {
+  const signIn = (event) => {
     event.preventDefault();
-    const { email, password } = this.state;
 
-    await auth.signInWithEmailAndPassword(email, password);
-
-    this.setState({
-      email: "",
-      password: ""
+    setCurrentUser({
+      id: "asdsada",
+      displayName: "Ignacio Fontalvo",
+      email: "igfont21@gmail.com",
     });
-    try {
-    } catch (error) {
-      console.error(error);
-    }
 
-    this.props.history.push("/dashboard");
+    setCredentials({
+      email: "",
+      password: "",
+    });
+
+    history.push("/dashboard");
   };
 
-  handleChange = event => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    setCredentials({ ...userCredentials, [name]: value });
   };
 
-  render() {
-    return (
-      <form className="signin-form__wrapper">
-        <div className="signin-form__textbox">
-          <UiInput
-            name="email"
-            label="Email"
-            type="email"
-            value={this.state.email}
-            handleChange={this.handleChange}
-          />
-        </div>
+  return (
+    <form className="signin-form__wrapper">
+      <div className="signin-form__textbox">
+        <UiInput
+          name="email"
+          label="Email"
+          type="email"
+          value={email}
+          handleChange={handleChange}
+        />
+      </div>
 
-        <div className="signin-form__textbox">
-          <UiInput
-            name="password"
-            label="Password"
-            type="password"
-            value={this.state.password}
-            handleChange={this.handleChange}
-          />
-        </div>
+      <div className="signin-form__textbox">
+        <UiInput
+          name="password"
+          label="Password"
+          type="password"
+          value={password}
+          handleChange={handleChange}
+        />
+      </div>
 
-        <div className="signin-form__actions">
-          <UiButton type="primary" handleClick={this.signIn}>
-            Sign In
-          </UiButton>
-          <UiButton type="google" handleClick={singInWithGoogle}>
-            Sign In With Google
-          </UiButton>
-        </div>
-      </form>
-    );
-  }
-}
+      <div className="signin-form__actions">
+        <UiButton type="primary" handleClick={signIn}>
+          Sign In
+        </UiButton>
+        <UiButton type="google" handleClick={singInWithGoogle}>
+          Sign In With Google
+        </UiButton>
+      </div>
+    </form>
+  );
+};
 
-export default withRouter(SignInForm);
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: (currentUser) => dispatch(setCurrentUser(currentUser)),
+});
+
+export default withRouter(connect(null, mapDispatchToProps)(SignInForm));
