@@ -3,11 +3,8 @@ import "./sign-in-form.styles.scss";
 import { UiButton } from "../ui-button/ui-button.component";
 import { UiInput } from "../ui-input/ui-input.component";
 import { withRouter } from "react-router-dom";
-import { singInWithGoogle, auth } from "../../firebase/firebase.util";
-import { setCurrentUser } from "../../redux/user/user.actions";
-import { connect } from "react-redux";
 
-const SignInForm = ({ setCurrentUser, history }) => {
+const SignInForm = ({ history }) => {
   const [userCredentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -18,11 +15,11 @@ const SignInForm = ({ setCurrentUser, history }) => {
   const signIn = (event) => {
     event.preventDefault();
 
-    setCurrentUser({
-      id: "asdsada",
-      displayName: "Ignacio Fontalvo",
-      email: "igfont21@gmail.com",
-    });
+    // setCurrentUser({
+    //   id: "asdsada",
+    //   displayName: "Ignacio Fontalvo",
+    //   email: "igfont21@gmail.com",
+    // });
 
     setCredentials({
       email: "",
@@ -36,6 +33,8 @@ const SignInForm = ({ setCurrentUser, history }) => {
     const { name, value } = event.target;
     setCredentials({ ...userCredentials, [name]: value });
   };
+
+  const singInWithGoogle = () => {};
 
   return (
     <form className="signin-form__wrapper">
@@ -71,8 +70,4 @@ const SignInForm = ({ setCurrentUser, history }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (currentUser) => dispatch(setCurrentUser(currentUser)),
-});
-
-export default withRouter(connect(null, mapDispatchToProps)(SignInForm));
+export default withRouter(SignInForm);

@@ -9,7 +9,7 @@ import {
   HeaderOptions,
 } from "./header.styles";
 
-const Header = ({ currentUser, history, setCurrentUser }) => {
+const Header = ({ currentUser, history }) => {
   return (
     <div
       className={`header__wrapper ${
@@ -33,7 +33,7 @@ const Header = ({ currentUser, history, setCurrentUser }) => {
           {currentUser ? (
             <UiButton
               handleClick={() => {
-                setCurrentUser(null);
+                // setCurrentUser(null);
                 history.push("/");
               }}
             >

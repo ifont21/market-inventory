@@ -1,22 +1,29 @@
 import React from "react";
 import "./summary.styles.scss";
-import { connect } from "react-redux";
-import { selectCurrentInventory } from "../../redux/inventory/inventory.selectors";
-import { createStructuredSelector } from "reselect";
 import CategoryCard from "../../components/category-card/category-card.component";
+import { getCurrentInventoryList } from "../../handlers/inventory/inventory.handler";
+import { useContext } from "react";
+import { InventoryContext } from "../../providers/inventory/inventory.provider";
+import { UiSpinner } from "../../components/with-spinner/ui-spinner.component";
 
-const Summary = ({ currentInventory, match }) => {
+const Summary = ({ match }) => {
+  const { state } = useContext(InventoryContext);
+  const { currentInventory: inventory, isLoading } = state;
+  const currentInventory = getCurrentInventoryList(inventory);
+
   return (
-    <div className="summary__wrapper">
-      {currentInventory.map((inventory, index) => (
-        <CategoryCard key={index} match={match} {...inventory} />
-      ))}
-    </div>
+    <React.Fragment>
+      {isLoading ? (
+        <UiSpinner />
+      ) : (
+        <div className="summary__wrapper">
+          {currentInventory.map((inventory, index) => (
+            <CategoryCard key={index} match={match} {...inventory} />
+          ))}
+        </div>
+      )}
+    </React.Fragment>
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  currentInventory: selectCurrentInventory,
-});
-
-export default connect(mapStateToProps)(Summary);
+export default Summary;

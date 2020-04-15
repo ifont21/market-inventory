@@ -3,20 +3,18 @@ import "./add-existence.styles.scss";
 
 import { UiInput } from "../../components/ui-input/ui-input.component";
 import { UiButton } from "../../components/ui-button/ui-button.component";
-import { connect } from "react-redux";
-import { addExistence } from "../../redux/existences/existences.actions";
 import { useState } from "react";
 import { useContext } from "react";
-import { ExistenceContext } from "../../providers/existence/existence.provider";
+import { InventoryContext } from "../../providers/inventory/inventory.provider";
 
-const AddExistence = ({ dispatch }) => {
+const AddExistence = () => {
   const [newExistence, setExistence] = useState({
     id: "",
     brand: "",
     amount: 0,
   });
 
-  const { setToogleHiddenDialog, hidden } = useContext(ExistenceContext);
+  const { setToogleHiddenDialog, hidden } = useContext(InventoryContext);
 
   const { id, brand, amount } = newExistence;
 
@@ -39,7 +37,7 @@ const AddExistence = ({ dispatch }) => {
         "https://www.buckhill.co.uk/assets/images/ximg_placeholder.png.pagespeed.ic.N8PbnIMBT7.png",
     };
 
-    dispatch(addExistence(existence));
+    // dispatch(addExistence(existence));
 
     setExistence({
       id: "",
@@ -96,4 +94,4 @@ const AddExistence = ({ dispatch }) => {
   );
 };
 
-export default connect(null)(AddExistence);
+export default AddExistence;

@@ -3,17 +3,10 @@ import "./add-product.styles.scss";
 
 import { UiInput } from "../../components/ui-input/ui-input.component";
 import { UiButton } from "../../components/ui-button/ui-button.component";
-import {
-  createProduct,
-  toggleCreate,
-} from "../../redux/products/products.actions";
-import { connect } from "react-redux";
-import { selectCurrentProductsCount } from "../../redux/products/products.selectors";
-import { createStructuredSelector } from "reselect";
 import { useContext } from "react";
-import ProductContext from "../../context/product.context";
+import { ProductContext } from "../../providers/product/product.provider";
 
-const AddProduct = ({ dispatch, productsCount }) => {
+const AddProduct = () => {
   const [product, setProduct] = useState({
     name: "",
     type: "",
@@ -36,16 +29,16 @@ const AddProduct = ({ dispatch, productsCount }) => {
   const addProduct = (event) => {
     event.preventDefault();
 
-    const product = {
-      ...this.state,
-      id: productsCount + 1,
-      img:
-        "https://www.buckhill.co.uk/assets/images/ximg_placeholder.png.pagespeed.ic.N8PbnIMBT7.png",
-      existence: [],
-      registeredBrands: [],
-    };
+    // const product = {
+    //   ...this.state,
+    //   id: productsCount + 1,
+    //   img:
+    //     "https://www.buckhill.co.uk/assets/images/ximg_placeholder.png.pagespeed.ic.N8PbnIMBT7.png",
+    //   existence: [],
+    //   registeredBrands: [],
+    // };
 
-    dispatch(createProduct(product));
+    // dispatch(createProduct(product));
 
     setProduct({
       name: "",
@@ -92,10 +85,4 @@ const AddProduct = ({ dispatch, productsCount }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  productsCount: selectCurrentProductsCount,
-});
-
-const stateConnect = connect(mapStateToProps);
-
-export default stateConnect(AddProduct);
+export default AddProduct;

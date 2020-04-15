@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./sign-up-form.styles.scss";
 import { UiButton } from "../ui-button/ui-button.component";
 import { UiInput } from "../ui-input/ui-input.component";
-import { auth, createUserProfileDocument } from "../../firebase/firebase.util";
 import { withRouter } from "react-router-dom";
 
 class SignUpForm extends Component {
@@ -28,12 +27,12 @@ class SignUpForm extends Component {
     }
 
     try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
+      // const { user } = await auth.createUserWithEmailAndPassword(
+      //   email,
+      //   password
+      // );
 
-      await createUserProfileDocument(user, { displayName });
+      // await createUserProfileDocument(user, { displayName });
 
       this.setState({
         displayName: "",

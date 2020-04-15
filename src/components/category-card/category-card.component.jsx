@@ -5,8 +5,9 @@ import { withRouter } from "react-router-dom";
 const CategoryCard = ({ items, img, name, history, match }) => {
   const existence = items.filter((item) => item.exist);
 
-  const onClickedCard = () =>
-    history.push(`${match.path}${name.toLowerCase()}`);
+  const onClickedCard = () => {
+    history.push(`${match.path}/${name.toLowerCase()}`);
+  };
 
   return (
     <div className="category-card__wrapper">

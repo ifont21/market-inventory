@@ -3,19 +3,33 @@ import "./product-dashboard.styles.scss";
 import { Route, Switch } from "react-router-dom";
 
 import { NavMenu } from "../../components/nav-menu/nav-menu.component";
-import { connect } from "react-redux";
-import { fetchInventoryByCategories } from "../../redux/inventory/inventory.actions";
-
+import { useRouteMatch } from "react-router-dom";
 import SummaryContainer from "../summary/summary.container";
 import ExistenceContainer from "../existence/existence.container";
 import { useEffect } from "react";
 import ProductTypesContainer from "../product-types/product-types.container";
-import ExistenceProviders from "../../providers/existence/existence.provider";
+import { InventoryContext } from "../../providers/inventory/inventory.provider";
+import { Redirect } from "react-router-dom";
+import ProductProvider from "../../providers/product/product.provider";
+import { useContext } from "react";
+import { httpFetchInventoryByCategories } from "../../services/http-inventory.service";
 
-const ProductDashboard = ({ match, fetchInventory }) => {
+const ProductDashboard = () => {
+  const {
+    fetchInventoryStart,
+    fetchInventorySuccess,
+    fetchInventoryError,
+  } = useContext(InventoryContext);
+
+  const match = useRouteMatch();
+
   useEffect(() => {
-    fetchInventory();
-  }, [fetchInventory]);
+    fetchInventoryStart();
+    httpFetchInventoryByCategories()
+      .then((res) => res.json())
+      .then((inventory) => fetchInventorySuccess(inventory))
+      .catch((error) => fetchInventoryError(error));
+  }, []);
 
   return (
     <div className="dashboard__wrapper">
@@ -23,12 +37,21 @@ const ProductDashboard = ({ match, fetchInventory }) => {
         <NavMenu match={match} />
       </div>
       <div className="dashboard__main-section">
-        <ExistenceProviders>
+        <ProductProvider>
           <Switch>
-            <Route exact path={`${match.path}/`} component={SummaryContainer} />
             <Route
               exact
-              path={`${match.path}/:category`}
+              path={`${match.path}/`}
+              render={() => <Redirect to={`${match.path}/inventory`} />}
+            />
+            <Route
+              exact
+              path={`${match.path}/inventory`}
+              component={SummaryContainer}
+            />
+            <Route
+              exact
+              path={`${match.path}/inventory/:category`}
               component={ExistenceContainer}
             />
             <Route
@@ -37,14 +60,10 @@ const ProductDashboard = ({ match, fetchInventory }) => {
               component={ProductTypesContainer}
             />
           </Switch>
-        </ExistenceProviders>
+        </ProductProvider>
       </div>
     </div>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchInventory: () => dispatch(fetchInventoryByCategories()),
-});
-
-export default connect(null, mapDispatchToProps)(ProductDashboard);
+export default ProductDashboard;

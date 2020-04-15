@@ -11,6 +11,7 @@ import { Route, Switch } from "react-router-dom";
 import { SignInGate } from "./pages/signin-gate/signin-gate.component";
 import ProductDashboard from "./pages/product-dashboard/product-dashboard.component";
 import HeaderContainer from "./components/header/header.container";
+import InventoryProvider from "./providers/inventory/inventory.provider";
 
 library.add(fab, faSearch, faPlus);
 
@@ -21,11 +22,13 @@ const App = () => {
         <HeaderContainer />
       </div>
       <div className="market-inventory__content">
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/signin" component={SignInGate} />
-          <Route path="/dashboard" component={ProductDashboard} />
-        </Switch>
+        <InventoryProvider>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/signin" component={SignInGate} />
+            <Route path="/dashboard" component={ProductDashboard} />
+          </Switch>
+        </InventoryProvider>
       </div>
     </div>
   );
