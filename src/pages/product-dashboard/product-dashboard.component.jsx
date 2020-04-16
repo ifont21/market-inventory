@@ -6,30 +6,13 @@ import { NavMenu } from "../../components/nav-menu/nav-menu.component";
 import { useRouteMatch } from "react-router-dom";
 import SummaryContainer from "../summary/summary.container";
 import ExistenceContainer from "../existence/existence.container";
-import { useEffect } from "react";
 import ProductTypesContainer from "../product-types/product-types.container";
-import { InventoryContext } from "../../providers/inventory/inventory.provider";
 import { Redirect } from "react-router-dom";
 import ProductProvider from "../../providers/product/product.provider";
-import { useContext } from "react";
-import { httpFetchInventoryByCategories } from "../../services/http-inventory.service";
+import withDashboardData from "./product-dashboard.container";
 
 const ProductDashboard = () => {
-  const {
-    fetchInventoryStart,
-    fetchInventorySuccess,
-    fetchInventoryError,
-  } = useContext(InventoryContext);
-
   const match = useRouteMatch();
-
-  useEffect(() => {
-    fetchInventoryStart();
-    httpFetchInventoryByCategories()
-      .then((res) => res.json())
-      .then((inventory) => fetchInventorySuccess(inventory))
-      .catch((error) => fetchInventoryError(error));
-  }, []);
 
   return (
     <div className="dashboard__wrapper">
@@ -66,4 +49,4 @@ const ProductDashboard = () => {
   );
 };
 
-export default ProductDashboard;
+export default withDashboardData(ProductDashboard);
