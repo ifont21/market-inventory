@@ -1,9 +1,19 @@
 import React from "react";
 import "./existence-item.styles.scss";
 
-export const ExistenceItem = ({ brand, img, amount }) => {
+export const ExistenceItem = ({
+  brand,
+  img,
+  amount,
+  id,
+  exist,
+  handleSelect,
+}) => {
   return (
-    <div className="existence__item">
+    <div
+      className={`existence__item ${!exist ? "existence--not-exist" : ""}`}
+      onClick={() => handleSelect({ brand, img, amount, id })}
+    >
       <div className="existence__image">
         <img src={img} alt={brand} />
       </div>

@@ -8,6 +8,11 @@
     height: 17vh;
     box-sizing: border-box;
     overflow: hidden;
+    cursor: pointer;
+  }
+
+  &--not-exist {
+    opacity: 0.5;
   }
 
   &__image {

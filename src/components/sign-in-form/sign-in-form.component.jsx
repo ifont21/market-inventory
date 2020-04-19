@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./sign-in-form.styles.scss";
 import { UiButton } from "../ui-button/ui-button.component";
 import { UiInput } from "../ui-input/ui-input.component";
 import { withRouter } from "react-router-dom";
+import { UserContext } from "../../providers/user/userProvider";
 
 const SignInForm = ({ history }) => {
+  const { loadUser } = useContext(UserContext);
+
   const [userCredentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -15,11 +18,11 @@ const SignInForm = ({ history }) => {
   const signIn = (event) => {
     event.preventDefault();
 
-    // setCurrentUser({
-    //   id: "asdsada",
-    //   displayName: "Ignacio Fontalvo",
-    //   email: "igfont21@gmail.com",
-    // });
+    loadUser({
+      id: "asdsada",
+      displayName: "Ignacio Fontalvo",
+      email: "igfont21@gmail.com",
+    });
 
     setCredentials({
       email: "",

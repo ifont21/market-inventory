@@ -5,20 +5,29 @@ import { UiInput } from "../../components/ui-input/ui-input.component";
 import { UiButton } from "../../components/ui-button/ui-button.component";
 import { useContext } from "react";
 import { ProductContext } from "../../providers/product/product.provider";
+import { httpCreateProduct } from "../../services/http-inventory.service";
+import UiSelect from "../uiSelect/uiSelect";
 
 const AddProduct = () => {
   const [product, setProduct] = useState({
     name: "",
-    type: "",
+    category: "",
   });
 
-  const { onToggleHidden, hidden } = useContext(ProductContext);
-
-  const { name, type } = product;
+  const { onToggleHidden, hidden, state, fetchProductsAsync } = useContext(
+    ProductContext
+  );
+  const { currentProducts } = state;
+  const { name } = product;
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setProduct({ ...product, [name]: value });
+  };
+
+  const handleSelectChange = (change) => {
+    const { name, value } = change;
+    setProduct({ ...product, [name]: value.key });
   };
 
   const cancel = (event) => {
@@ -29,26 +38,40 @@ const AddProduct = () => {
   const addProduct = (event) => {
     event.preventDefault();
 
-    // const product = {
-    //   ...this.state,
-    //   id: productsCount + 1,
-    //   img:
-    //     "https://www.buckhill.co.uk/assets/images/ximg_placeholder.png.pagespeed.ic.N8PbnIMBT7.png",
-    //   existence: [],
-    //   registeredBrands: [],
-    // };
+    const newProduct = {
+      ...product,
+      id: currentProducts.productsCount + 1,
+      img:
+        "https://www.buckhill.co.uk/assets/images/ximg_placeholder.png.pagespeed.ic.N8PbnIMBT7.png",
+      brands: [],
+    };
 
-    // dispatch(createProduct(product));
+    httpCreateProduct(newProduct)
+      .then((response) => {
+        setProduct({
+          name: "",
+          category: "",
+        });
+        fetchProductsAsync();
+        onToggleHidden();
+      })
+      .catch((error) => console.error(error));
 
     setProduct({
       name: "",
-      type: "",
+      category: "",
     });
   };
 
+  const categories = [
+    { key: "CLEAN", value: "CLEAN" },
+    { key: "BEAUTY", value: "BEAUTY" },
+    { key: "FOOD", value: "FOOD" },
+  ];
+
   return (
     <div
-      style={{ visibility: !hidden ? "visible" : "hidden" }}
+      style={{ display: !hidden ? "block" : "none" }}
       className="add-product__wrapper"
     >
       <form className="add-product__form">
@@ -64,12 +87,11 @@ const AddProduct = () => {
             />
           </div>
           <div className="add-product__input">
-            <UiInput
-              name="type"
-              label="Type"
-              type="text"
-              value={type}
-              handleChange={handleChange}
+            <UiSelect
+              placeholder="Select Category"
+              name="category"
+              options={categories}
+              handleChange={handleSelectChange}
             />
           </div>
         </div>

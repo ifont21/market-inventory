@@ -13,6 +13,7 @@ const withExistenceData = (WrappedComponent) => ({ match, ...props }) => {
   return (
     <WrappedComponent
       isLoading={isLoading}
+      category={category}
       currentExistences={currentExistences}
       setToogleHiddenDialog={setToogleHiddenDialog}
       {...props}

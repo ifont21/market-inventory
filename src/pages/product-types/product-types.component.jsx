@@ -3,6 +3,7 @@ import "./product-types.styles.scss";
 import { Product } from "../../components/product/product.component";
 import { AddItem } from "../../components/add-item/add-item.component";
 import AddProduct from "../../components/add-product/add-product.component";
+import { useRef } from "react";
 
 const ProductTypes = ({ currentProducts, onToggleHidden }) => {
   return (

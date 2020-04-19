@@ -1,11 +1,10 @@
 import React, { createContext, useState, useReducer } from "react";
+import { httpFetchInventoryByCategories } from "../../services/http-inventory.service";
 
 export const InventoryContext = createContext({
   hidden: true,
   toggleHidden: () => {},
-  fetchInventoryStart: () => {},
-  fetchInventorySuccess: () => {},
-  fetchInventoryError: () => {},
+  fetchInventoryAsync: () => {},
 });
 
 const INITIAL_STATE = {
@@ -52,15 +51,21 @@ const InventoryProvider = ({ children }) => {
   const fetchInventoryError = (error) =>
     dispatch({ type: "FETCH_INVENTORY_ERROR", payload: error });
 
+  const fetchInventoryAsync = () => {
+    fetchInventoryStart();
+    httpFetchInventoryByCategories()
+      .then((res) => res.json())
+      .then((inventory) => fetchInventorySuccess(inventory))
+      .catch((error) => fetchInventoryError(error));
+  };
+
   return (
     <InventoryContext.Provider
       value={{
         hidden,
         setToogleHiddenDialog,
         state,
-        fetchInventoryStart,
-        fetchInventorySuccess,
-        fetchInventoryError,
+        fetchInventoryAsync,
       }}
     >
       {children}

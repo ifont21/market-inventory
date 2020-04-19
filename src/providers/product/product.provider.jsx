@@ -1,6 +1,7 @@
 import React, { createContext } from "react";
 import { useState } from "react";
 import { useReducer } from "react";
+import { httpFetchProducts } from "../../services/http-inventory.service";
 
 const INITIAL_STATE = {
   currentProducts: [],
@@ -11,9 +12,7 @@ const INITIAL_STATE = {
 export const ProductContext = createContext({
   hidden: true,
   onToggleHidden: () => {},
-  fetchProducts: () => {},
-  fetchProductsSuccess: () => {},
-  fetchProductsError: () => {},
+  fetchProductsAsync: () => {},
 });
 
 const reducer = (state, action) => {
@@ -55,15 +54,21 @@ const ProductProvider = ({ children }) => {
   const fetchProductsError = (error) =>
     dispatch({ type: "FETCH_PRODUCTS_ERROR", payload: error });
 
+  const fetchProductsAsync = () => {
+    fetchProducts();
+    httpFetchProducts()
+      .then((res) => res.json())
+      .then((products) => fetchProductsSuccess(products))
+      .catch((error) => fetchProductsError(error));
+  };
+
   return (
     <ProductContext.Provider
       value={{
         hidden,
         onToggleHidden,
         state,
-        fetchProducts,
-        fetchProductsSuccess,
-        fetchProductsError,
+        fetchProductsAsync,
       }}
     >
       {children}
