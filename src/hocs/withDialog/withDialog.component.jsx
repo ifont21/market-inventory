@@ -15,15 +15,16 @@ const withDialog = (WrappedComponent) => {
     return (
       <React.Fragment>
         {open ? <BlockUI></BlockUI> : ""}
-        <DialogWrapper
-          className="dialog-wrapper"
-          style={{ display: open ? "flex" : "none" }}
-        >
-          <div className="closeBtn" onClick={closeModal}>
-            CLOSE
-          </div>
-          <WrappedComponent closeModal={closeModal} {...props} />
-        </DialogWrapper>
+        {open ? (
+          <DialogWrapper>
+            <div className="closeBtn" onClick={closeModal}>
+              CLOSE
+            </div>
+            <WrappedComponent closeModal={closeModal} {...props} />
+          </DialogWrapper>
+        ) : (
+          ""
+        )}
       </React.Fragment>
     );
   };

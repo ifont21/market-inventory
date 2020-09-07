@@ -4,7 +4,8 @@ body {
   font-family: "Open Sans Condensed", sans-serif;
   color: #1d2d35;
   min-height: 100vh;
-  background-color: #109abf;
+  display: flex;
+  flex-flow: column;
 }
 
 h1,

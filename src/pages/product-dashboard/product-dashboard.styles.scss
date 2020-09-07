@@ -1,15 +1,27 @@
 .dashboard {
   &__wrapper {
     display: flex;
+    flex-flow: column;
+    height: 100%;
+  }
+
+  &__section {
+    display: flex;
     justify-content: space-between;
+    height: 100%;
   }
 
   &__aside {
-    padding: 20px;
+    padding: 0 40px 0 40px;
+    flex: 1 0 10%;
+    background-color: lighten(#d9dcd6, 8%);
+    color: #1d2d35;
   }
 
   &__main-section {
-    flex: 1 0 70%;
+    flex: 1 0 80%;
     padding: 20px 20px 20px 100px;
+    box-sizing: border-box;
+    background-color: white;
   }
 }

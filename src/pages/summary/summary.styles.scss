@@ -1,8 +1,10 @@
 .summary {
   &__wrapper {
     display: flex;
+    flex-flow: wrap;
     & > div {
-      flex-basis: 25%;
+      
+      min-width: calc(17vw + 50px);
     }
   }
 }
